@@ -1,0 +1,37 @@
+[user]
+	email = Tomasz.Borek@gmail.com
+	name = LIttleAncientForestKami
+
+[alias]
+	st = status
+    sst = status -s
+    co = checkout
+
+# config
+    ec = config --global -e
+# log related
+    search = log -S
+	lsd = log --oneline --decorate --graph
+    lsdd = log --format="%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
+    ll = log --format="%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    ls = log --format="%C(yellow)%h\\ %C(green)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+
+# shows full repo path since I'm using short dir and am jumping near-similar repos frequently
+    repo = rev-parse --show-toplevel
+
+    story = log --all --oneline --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    review = whatchanged -p --abbrev-commit --pretty=medium
+
+    ignored = !find -type f  | git check-ignore --stdin
+	d = !"cat .gitignore .git/info/exclude $HOME/.config/git/ignore | grep -v '#' | grep ."
+
+# recon in the repo
+	filenames = log --pretty=format: --name-only
+	feathers = !git filenames | grep -v '^$' | sort | uniq -c | sort -g
+
+    migawkiPerAutor = shortlog --summary
+    migawkiIScaleniaPerAutor = shortlog --summary --no-merges
+    #scalone = branch --merged | grep -vE '^(*|\smaster\s$)' 
+    #| xargs -n 1 git branch -d
+[push]
+	default = simple
