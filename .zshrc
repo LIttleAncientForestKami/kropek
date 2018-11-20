@@ -33,7 +33,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git gitignore autojump jira command-not-found zsh-syntax-highlighting)
+plugins=(git mercurial command-not-found gitignore mvn autojump gradle zsh-syntax-highlighting)
 
 ###########################################################
 ###########################################################
@@ -112,6 +112,9 @@ export EDITOR='vim'
 export WECHALLUSER="LAFK_pl"
 export WECHALLTOKEN="3C91F-A7ABD-C823D-83520-58E7B-F1528"
 
+# Ściągi via cheat z podświetlaniem składni
+export CHEATCOLORS=true
+
 # personal aliases override others (from libs, plugins, themes). 
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
@@ -126,13 +129,13 @@ alias l=lock.sh
 alias freemind="freemind.sh &"
 alias żurnal=journalctl
 alias finger=loginctl
+alias dzwonek="paplay /usr/share/sounds/freedesktop/stereo/complete.oga"
 alias akademia=/home/tammo/rdzy/epam/ja-materials
 alias akademiaWiki=/home/tammo/rdzy/epam/ja-materials.wiki
 alias epamowyPakiet="echo epam.tjb.edu.pl"
 alias masło="echo ti7LWLKI"
 alias j2d="/home/tammo/tests/JDKTests/jdk1.8.0_60-demos/demo/jfc/Java2D"
 alias nrkonta="echo 45 2490 0005 0000 4004 5324 1140"
-alias dowód="echo 1261059/2018/8068269/01; firefox https://obywatel.gov.pl/dokumenty-i-dane-osobowe/odbior-dowodu-osobistego-sprawdz-czy-twoj-dowod-jest-gotowy"
 ## Java 9
 alias j9pkg="/usr/java/jdk-9.0.1/bin/"
 alias javac9="/home/tammo/Pobrane/tmp-jdk9/jdk-9/bin/javac"
@@ -161,6 +164,21 @@ function epamowaChmura {
 # split with command
 function tmw {
         tmux split-window -dh "$*"
+}
+
+# Mapa pakietów
+function zależnościDoMapyPakietów {
+    jdeps -e $1 -apionly -verbose:package -recursive -dotoutput . $2
+    # jeśli z zależnościami do API Javy, to bez verbose, recursive, samo apionly
+    # -jdkinternals da Ci co innego ciekawego
+}
+
+function mapaPakietów {
+    twopi -Goverlap=scale -Tpng $1 -o mapa.png
+    #twopi -Goverlap=scale -Tsvg $1 -o mapa.svg
+    #asciidoctor nie łapie SVG, stąd PNG
+    echo Możesz dodać style, jeśli chcesz, albo wyspecifykować inne skalowanie lub inny węzeł centralny. Wykonaj man twopi i czytaj o atrybutach twopi.
+    xdg-open mapa.png
 }
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
